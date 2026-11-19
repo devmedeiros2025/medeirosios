@@ -1,0 +1,181 @@
+/* Cabeçalho do negócio: o nome em serifada grande e o foco do dia. É o momento da marca. */
+
+.mz-negocio {
+  padding: var(--mz-2) 0 var(--mz-4);
+}
+
+.mz-negocio-nome {
+  margin: 0;
+  font-family: var(--mz-serifa);
+  font-weight: 400;
+  font-size: clamp(32px, 12.5cqi, 46px);
+  line-height: 0.96;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  animation: mz-assenta var(--mz-lento) var(--mz-curva) both;
+}
+
+.mz-negocio-faz {
+  margin: var(--mz-2) 0 0;
+  max-width: 44ch;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--mz-fg-calado);
+  animation: mz-entra var(--mz-lento) var(--mz-curva) 80ms both;
+}
+
+.mz-foco {
+  position: relative;
+  margin: var(--mz-4) 0 0;
+  padding: 0 0 0 14px;
+}
+.mz-foco::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 3px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--mz-brasa);
+  transform-origin: top;
+  animation: mz-risca 520ms var(--mz-curva) 160ms both;
+}
+.mz-foco figcaption,
+.mz-foco-rotulo {
+  display: block;
+  font-size: var(--mz-t-1);
+  font-weight: 600;
+  color: var(--mz-texto-brasa);
+  margin-bottom: 3px;
+}
+.mz-foco blockquote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mz-serifa);
+  font-style: italic;
+  font-size: var(--mz-s-2);
+  line-height: 1.16;
+  letter-spacing: 0.002em;
+  color: var(--mz-fg);
+  text-wrap: pretty;
+  animation: mz-entra var(--mz-lento) var(--mz-curva) 240ms both;
+}
+
+.mz-foco-vazio {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px 8px 14px;
+  border-radius: 0 var(--mz-r-2) var(--mz-r-2) 0;
+  font-size: var(--mz-t-2);
+  color: var(--mz-fg-calado);
+  transition: background var(--mz-rapido) var(--mz-curva);
+}
+.mz-foco-vazio:hover {
+  background: var(--mz-realce);
+}
+.mz-foco-vazio::before {
+  background: repeating-linear-gradient(to bottom, var(--mz-brasa) 0 4px, transparent 4px 7px);
+}
+
+.mz-negocio-tom {
+  margin: var(--mz-3) 0 0;
+  font-size: var(--mz-t-2);
+  line-height: 1.4;
+}
+.mz-negocio-tom .mz-calado {
+  margin-right: 4px;
+}
+
+.mz-negocio-lido {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: var(--mz-2) 0 0;
+  font-size: var(--mz-t-1);
+  color: var(--mz-fg-calado);
+}
+
+@keyframes mz-assenta {
+  from {
+    opacity: 0;
+    letter-spacing: 0.03em;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: -0.012em;
+    transform: none;
+  }
+}
+
+@keyframes mz-risca {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Convites: sem pasta e pasta sem MazyOS */
+.mz-convite {
+  padding: var(--mz-6) 0 var(--mz-5);
+}
+.mz-convite p {
+  margin: 0 0 var(--mz-3);
+  font-size: var(--mz-t-3);
+  line-height: 1.5;
+  max-width: 40ch;
+}
+.mz-convite-marca {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: var(--mz-4);
+  border-radius: var(--mz-r-4);
+  background: var(--mz-elevado);
+  border: 1px solid var(--mz-linha-fina);
+  color: var(--mz-texto-brasa);
+  box-shadow: var(--mz-sombra-1);
+}
+.mz-convite-titulo {
+  margin: 0 0 var(--mz-3);
+  font-family: var(--mz-serifa);
+  font-weight: 400;
+  font-size: clamp(30px, 11cqi, 40px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  animation: mz-assenta var(--mz-lento) var(--mz-curva) both;
+}
+.mz-convite-pasta {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--mz-r-1);
+  background: var(--mz-poco);
+  border: 1px solid var(--mz-linha-fina);
+  font-size: 11.5px !important;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mz-boas-vindas .mz-botao-marca {
+  margin-top: var(--mz-2);
+}
+.mz-convite-nota {
+  margin-top: var(--mz-3) !important;
+  font-size: var(--mz-t-1) !important;
+}
+
+.mz-carregando {
+  display: grid;
+  gap: 10px;
+  padding: var(--mz-3) 0;
+}

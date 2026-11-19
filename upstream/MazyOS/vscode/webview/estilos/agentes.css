@@ -1,0 +1,293 @@
+/* Agente e conta: o seletor segmentado e o cartão da conta. */
+
+.mz-agentes {
+  padding: var(--mz-4) 0 0;
+  border-top: 1px solid var(--mz-linha-fina);
+}
+.mz-agentes-titulo {
+  margin: 0 0 10px;
+  font-family: var(--mz-serifa);
+  font-weight: 400;
+  font-size: var(--mz-s-2);
+  line-height: 1;
+}
+
+.mz-segmentos {
+  --i: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--mz-r-3);
+  background: var(--mz-poco);
+  border: 1px solid var(--mz-linha-fina);
+}
+/* O "dedo" que desliza até o agente escolhido, na tinta dele */
+.mz-segmentos::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc((100% - 6px - 4px) / 3);
+  border-radius: 6px;
+  background: var(--mz-elevado-2);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--mz-tinta) 55%, transparent),
+    var(--mz-sombra-1);
+  transform: translateX(calc(var(--i) * (100% + 2px)));
+  transition:
+    transform var(--mz-medio) var(--mz-curva),
+    box-shadow var(--mz-medio) var(--mz-curva);
+}
+body.vscode-high-contrast .mz-segmentos::before,
+body.vscode-high-contrast-light .mz-segmentos::before {
+  box-shadow: inset 0 0 0 2px var(--vscode-focusBorder, currentColor);
+}
+
+.mz-segmento {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 30px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  font-size: var(--mz-t-2);
+  font-weight: 500;
+  color: var(--mz-fg-calado);
+  transition: color var(--mz-rapido) var(--mz-curva);
+}
+.mz-segmento:hover {
+  color: var(--mz-fg);
+}
+.mz-segmento[aria-checked='true'] {
+  color: var(--mz-tinta-texto);
+  font-weight: 600;
+}
+.mz-segmento-marca {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@container (max-width: 330px) {
+  .mz-segmento {
+    gap: 5px;
+    padding-inline: 3px;
+    font-size: 11.5px;
+    letter-spacing: -0.005em;
+  }
+}
+.mz-segmento:focus-visible {
+  outline-offset: -1px;
+}
+
+/* Cartão da conta */
+.mz-conta {
+  position: relative;
+  margin-top: var(--mz-2);
+  padding: 12px 12px 10px;
+  border-radius: var(--mz-r-3);
+  background: var(--mz-elevado);
+  border: 1px solid var(--mz-linha-fina);
+  box-shadow: var(--mz-sombra-1);
+  animation: mz-entra var(--mz-medio) var(--mz-curva) both;
+}
+.mz-conta-topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mz-2);
+  margin-bottom: 6px;
+}
+.mz-conta-nome {
+  font-size: var(--mz-t-3);
+  font-weight: 600;
+}
+.mz-conta-versao {
+  font-size: 10.5px !important;
+  color: var(--mz-fg-calado);
+}
+.mz-conta-estado {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 7px;
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+.mz-conta-plano {
+  padding: 1px 7px;
+  border-radius: var(--mz-r-pilula);
+  background: color-mix(in srgb, var(--mz-tinta) 16%, transparent);
+  color: var(--mz-tinta-texto);
+  font-size: var(--mz-t-1);
+  font-weight: 600;
+}
+.mz-conta-email {
+  margin: 4px 0 0 14px;
+  font-size: var(--mz-t-2);
+  color: var(--mz-fg-calado);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mz-conta-descricao {
+  margin: 6px 0 0;
+  font-size: var(--mz-t-2);
+  line-height: 1.45;
+  color: var(--mz-fg-calado);
+}
+.mz-conta-nota {
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--mz-fg-calado);
+}
+.mz-conta-verificando {
+  display: grid;
+  gap: 10px;
+}
+
+.mz-conta-alternar {
+  display: flex;
+  align-items: center;
+  gap: var(--mz-2);
+  width: 100%;
+  min-height: 30px;
+  margin-top: 10px;
+  padding: 4px 8px;
+  border-radius: var(--mz-r-2);
+  background: var(--mz-poco);
+  border: 1px solid var(--mz-linha-fina);
+  font-size: var(--mz-t-2);
+  text-align: left;
+  transition: border-color var(--mz-rapido) var(--mz-curva);
+}
+.mz-conta-alternar:hover {
+  border-color: var(--mz-realce-forte);
+}
+.mz-conta-modelo-atual {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.mz-conta-seta {
+  flex: none;
+  color: var(--mz-fg-calado);
+  transition: transform var(--mz-medio) var(--mz-curva);
+}
+.mz-conta-alternar[aria-expanded='true'] .mz-conta-seta {
+  transform: rotate(180deg);
+}
+
+.mz-conta-detalhes {
+  margin-top: 6px;
+  animation: mz-entra var(--mz-medio) var(--mz-curva) both;
+}
+.mz-modelos {
+  display: grid;
+  gap: 1px;
+}
+.mz-modelo {
+  display: flex;
+  align-items: center;
+  gap: var(--mz-2);
+  width: 100%;
+  min-height: 28px;
+  padding: 3px 8px;
+  border-radius: var(--mz-r-2);
+  text-align: left;
+  font-size: var(--mz-t-2);
+  color: var(--mz-fg-calado);
+  transition:
+    background var(--mz-rapido) var(--mz-curva),
+    color var(--mz-rapido) var(--mz-curva);
+}
+.mz-modelo:hover {
+  background: var(--mz-realce);
+  color: var(--mz-fg);
+}
+.mz-modelo-marcado {
+  color: var(--mz-fg);
+  font-weight: 500;
+}
+.mz-modelo-marca {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mz-realce-forte);
+  color: var(--mz-sobre-tinta);
+}
+.mz-modelo-marcado .mz-modelo-marca {
+  background: var(--mz-tinta);
+  border-color: var(--mz-tinta);
+}
+.mz-modelo-rotulo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mz-modelo-id {
+  flex: none;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px !important;
+  color: var(--mz-fg-calado);
+}
+@container (max-width: 300px) {
+  .mz-modelo-id {
+    display: none;
+  }
+}
+
+.mz-conta-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.mz-conta-binario {
+  margin: 8px 0 0;
+  font-size: 10.5px !important;
+  color: var(--mz-fg-calado);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mz-comando {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 6px 4px 6px 10px;
+  border-radius: var(--mz-r-2);
+  background: var(--mz-poco);
+  border: 1px solid var(--mz-linha-fina);
+}
+.mz-comando code {
+  flex: 1;
+  min-width: 0;
+  padding: 3px 0;
+  background: none;
+  color: var(--mz-fg);
+  font-size: 11px !important;
+  line-height: 1.5;
+  word-break: break-all;
+}

@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "sources": [
+    {
+      "id": "expx-buildx",
+      "path": "vendor/expx/buildx",
+      "commit": "566b53a2de4805a06c2d047de86de18e72140850",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-designx",
+      "path": "vendor/expx/designx",
+      "commit": "e8eda95fd2882738a3b9b96a56b8cc0df5d0a068",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-legadox",
+      "path": "vendor/expx/legadox",
+      "commit": "3678e5a6648a29e62d3a141665b457c8b904dd92",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-memox",
+      "path": "vendor/expx/memox",
+      "commit": "01b2b040c745f391ec72a584600bdd42d8387bd5",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-mergex",
+      "path": "vendor/expx/mergex",
+      "commit": "064625fd70cb2dcaf0634f72db88cb87a963dc68",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-prodx",
+      "path": "vendor/expx/prodx",
+      "commit": "ed7c7343165fc3b7dcf97895568015632c07457c",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-runx",
+      "path": "vendor/expx/runx",
+      "commit": "4480d7817da730f743c3cd2c0c6199addcd87bb1",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-sprintx",
+      "path": "vendor/expx/sprintx",
+      "commit": "6b846ae3404ddc6087b032d4a598b4d897838da9",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expx-stackx",
+      "path": "vendor/expx/stackx",
+      "commit": "872043bfc045bb01725e9ef21d5eaa735105268e",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "expxdev",
+      "path": "vendor/expx/expxdev",
+      "commit": "9ccdceed92c06f88f9f57ffc3b23073a0580d700",
+      "licenseStatus": "declared",
+      "licensePath": "LICENSE"
+    },
+    {
+      "id": "mazyos-official",
+      "path": "vendor/mazyos-official",
+      "commit": "d2b65b392f1ee230afb088d155fc734def5f105d",
+      "licenseStatus": "not-declared-at-root"
+    }
+  ]
+}

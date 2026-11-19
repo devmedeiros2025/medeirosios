@@ -1,0 +1,259 @@
+{
+  "name": "mazyos",
+  "displayName": "MazyOS",
+  "description": "O sistema operacional do seu negócio dentro do VS Code e do Antigravity. A memória da empresa, a identidade visual e as 17 skills do MazyOS rodando com o agente que você já paga: Claude Code, Codex (GPT) ou Antigravity.",
+  "version": "0.1.0",
+  "publisher": "mazzeo",
+  "author": {
+    "name": "Mazzeo",
+    "url": "https://mazyos.com.br"
+  },
+  "homepage": "https://mazyos.com.br",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mazzeoia/MazyOS.git",
+    "directory": "vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/mazzeoia/MazyOS/issues"
+  },
+  "icon": "media/icone.png",
+  "galleryBanner": {
+    "color": "#141413",
+    "theme": "dark"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Other"
+  ],
+  "keywords": [
+    "claude code",
+    "codex",
+    "antigravity",
+    "agente de ia",
+    "marketing"
+  ],
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mazyos",
+          "title": "MazyOS",
+          "icon": "media/mazyos.svg"
+        }
+      ]
+    },
+    "views": {
+      "mazyos": [
+        {
+          "type": "webview",
+          "id": "mazyos.painel",
+          "name": "Painel",
+          "contextualTitle": "MazyOS",
+          "icon": "media/mazyos.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "mazyos.abrirPainel",
+        "title": "Abrir o painel",
+        "category": "MazyOS",
+        "icon": "$(home)"
+      },
+      {
+        "command": "mazyos.pedir",
+        "title": "Pedir algo ao Mazy",
+        "category": "MazyOS",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "mazyos.rodarSkill",
+        "title": "Rodar uma skill",
+        "category": "MazyOS",
+        "icon": "$(play)"
+      },
+      {
+        "command": "mazyos.instalar",
+        "title": "Ligar o MazyOS nesta pasta",
+        "category": "MazyOS"
+      },
+      {
+        "command": "mazyos.recarregar",
+        "title": "Recarregar a memória",
+        "category": "MazyOS",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "mazyos.abrirMemoria",
+        "title": "Abrir os arquivos de memória",
+        "category": "MazyOS"
+      },
+      {
+        "command": "mazyos.escolherAgente",
+        "title": "Escolher o agente (Claude, GPT ou Antigravity)",
+        "category": "MazyOS",
+        "icon": "$(account)"
+      },
+      {
+        "command": "mazyos.entrar",
+        "title": "Entrar numa conta",
+        "category": "MazyOS"
+      },
+      {
+        "command": "mazyos.definirChave",
+        "title": "Guardar uma chave de API",
+        "category": "MazyOS"
+      },
+      {
+        "command": "mazyos.abrirConsole",
+        "title": "Abrir o console do Mazy",
+        "category": "MazyOS",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "mazyos.cancelar",
+        "title": "Cancelar a execução atual",
+        "category": "MazyOS"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "mazyos.pedir",
+          "when": "view == mazyos.painel",
+          "group": "navigation@1"
+        },
+        {
+          "command": "mazyos.recarregar",
+          "when": "view == mazyos.painel",
+          "group": "navigation@2"
+        },
+        {
+          "command": "mazyos.abrirConsole",
+          "when": "view == mazyos.painel",
+          "group": "navigation@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "MazyOS",
+      "properties": {
+        "mazyos.agente": {
+          "type": "string",
+          "enum": [
+            "claude",
+            "codex",
+            "antigravity"
+          ],
+          "enumDescriptions": [
+            "Claude Code, com a sua conta Claude (Pro, Max ou Team) ou uma chave da API da Anthropic.",
+            "Codex, com a sua conta do ChatGPT (Plus, Pro ou Business) ou uma chave da API da OpenAI.",
+            "Antigravity CLI, com a sua conta Google (Gemini, Claude e GPT-OSS pela cota do Antigravity)."
+          ],
+          "default": "claude",
+          "description": "Qual agente roda as skills do MazyOS."
+        },
+        "mazyos.modelos": {
+          "type": "object",
+          "default": {},
+          "description": "Modelo por agente, pelo id que o CLI aceita. Em branco usa o padrão do CLI.",
+          "properties": {
+            "claude": {
+              "type": "string"
+            },
+            "codex": {
+              "type": "string"
+            },
+            "antigravity": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "mazyos.permissoes": {
+          "type": "string",
+          "enum": [
+            "edicoes",
+            "tudo"
+          ],
+          "enumDescriptions": [
+            "O agente lê e edita arquivos da pasta sem perguntar. Comandos que vão além disso ficam bloqueados.",
+            "O agente roda qualquer comando sem perguntar. Use só em pastas que você confia."
+          ],
+          "default": "edicoes",
+          "description": "O que o agente pode fazer sem pedir confirmação quando roda pelo console do Mazy."
+        },
+        "mazyos.abrirConsoleAoRodar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Abre o console do Mazy ao lado do editor quando uma skill começa a rodar."
+        },
+        "mazyos.linhaDeStatus": {
+          "type": "boolean",
+          "default": true,
+          "description": "Mostra o negócio e o foco atual na barra de status."
+        },
+        "mazyos.caminhos": {
+          "type": "object",
+          "default": {},
+          "description": "Caminho completo de cada CLI, se ele não estiver no PATH.",
+          "properties": {
+            "claude": {
+              "type": "string"
+            },
+            "codex": {
+              "type": "string"
+            },
+            "antigravity": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "mazyos.pedir",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m"
+      }
+    ]
+  },
+  "scripts": {
+    "preparar": "node scripts/preparar-plugin.mjs",
+    "build": "npm run preparar && node esbuild.mjs",
+    "build:producao": "npm run preparar && node esbuild.mjs --producao",
+    "watch": "node esbuild.mjs --watch",
+    "tipos": "tsc --noEmit -p . && tsc --noEmit -p webview",
+    "test": "vitest run",
+    "verificar": "npm run tipos && npm test",
+    "vscode:prepublish": "npm run build:producao",
+    "empacotar": "vsce package --skip-license"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/vscode": "^1.96.0",
+    "@vscode/vsce": "^4.1.0",
+    "esbuild": "^0.28.2",
+    "lucide-react": "^0.560.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5.9.0",
+    "vitest": "^5.1.0"
+  }
+}

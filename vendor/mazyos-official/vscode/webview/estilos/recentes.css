@@ -1,0 +1,117 @@
+/* Execuções recentes: cartões com o fio na cor do agente. */
+
+.mz-recentes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.mz-recentes-vazio {
+  margin: 0;
+  padding: 4px 0 2px;
+  font-size: var(--mz-t-2);
+  line-height: 1.5;
+  color: var(--mz-fg-calado);
+}
+
+.mz-exec {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: var(--mz-r-3);
+  background: var(--mz-elevado);
+  border: 1px solid var(--mz-linha-fina);
+  overflow: hidden;
+  transition:
+    transform var(--mz-medio) var(--mz-curva),
+    box-shadow var(--mz-medio) var(--mz-curva),
+    border-color var(--mz-medio) var(--mz-curva);
+}
+.mz-exec::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--mz-tinta);
+  opacity: 0.85;
+}
+.mz-exec:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--mz-sombra-2);
+  border-color: var(--mz-realce-forte);
+}
+.mz-exec[data-estado='rodando'] {
+  background: color-mix(in oklab, var(--mz-elevado) 92%, var(--mz-tinta));
+  border-color: color-mix(in srgb, var(--mz-tinta) 38%, transparent);
+}
+.mz-exec[data-estado='cancelado']::before,
+.mz-exec[data-estado='erro']::before {
+  opacity: 0.4;
+}
+
+.mz-exec-abrir {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px 8px 14px;
+  text-align: left;
+}
+.mz-exec-abrir:focus-visible {
+  outline-offset: -2px;
+}
+.mz-exec-linha1,
+.mz-exec-linha2 {
+  display: flex;
+  align-items: center;
+  gap: var(--mz-2);
+  min-width: 0;
+}
+.mz-exec-titulo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--mz-t-3);
+  font-weight: 500;
+}
+.mz-exec-quando {
+  flex: none;
+  font-size: var(--mz-t-1);
+  color: var(--mz-fg-calado);
+  font-variant-numeric: tabular-nums;
+}
+.mz-exec-linha2 {
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--mz-fg-calado);
+}
+.mz-exec-sub {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mz-exec[data-estado='rodando'] .mz-exec-sub {
+  color: var(--mz-fg);
+}
+.mz-exec[data-estado='erro'] .mz-exec-sub {
+  color: var(--mz-erro);
+}
+.mz-exec-agente {
+  flex: none;
+  font-size: var(--mz-t-1);
+  font-weight: 600;
+  color: var(--mz-tinta-texto);
+}
+.mz-exec-cancelar {
+  margin-right: 4px;
+}
+.mz-exec-cancelar:hover {
+  color: var(--mz-erro) !important;
+}

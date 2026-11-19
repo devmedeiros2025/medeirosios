@@ -1,0 +1,204 @@
+import { describe, it, expect, afterEach } from "vitest";
+import { cpSync, mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { executarWatch, type SessaoWatch } from "./watch.js";
+
+/**
+ * T-03.06 — o loop: ler, desenhar, observar, redesenhar.
+ *
+ * O que este teste protege acima de tudo: "a árvore completa vem dos arquivos
+ * do plano, relida apenas quando eles mudam — não a cada redesenho". Com um
+ * observador de gatilho único, uma linha nova no rastro releria o plano
+ * inteiro, e a promessa se perderia em silêncio.
+ */
+
+let dir: string | undefined;
+let sessao: SessaoWatch | undefined;
+
+afterEach(async () => {
+  if (sessao !== undefined) await sessao.parar();
+  sessao = undefined;
+  if (dir !== undefined) rmSync(dir, { recursive: true, force: true });
+  dir = undefined;
+});
+
+/** Copia uma fixture para pasta temporária: nunca escrevemos na origem. */
+function copiar(fixture: string): string {
+  const d = mkdtempSync(join(tmpdir(), "expx-watch-"));
+  cpSync(`fixtures/watch/${fixture}`, d, { recursive: true });
+  return d;
+}
+
+const espera = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+
+function saidaFalsa(): { linhas: string[][]; escrever: (t: string) => void } {
+  const linhas: string[][] = [];
+  return { linhas, escrever: (t) => linhas.push([t]) };
+}
+
+describe("loop do watch", () => {
+  it("integração: mudar o plano redesenha; mudar só o rastro não relê o plano", async () => {
+    dir = copiar("com-estado");
+    const f = saidaFalsa();
+    let leiturasDoPlano = 0;
+
+    sessao = await executarWatch({
+      raiz: dir,
+      opcoes: { trabalho: undefined, todos: false, ajuda: false, colunas: 80 },
+      escrever: f.escrever,
+      cor: false,
+      debounceMs: 40,
+      aoLerPlano: () => leiturasDoPlano++,
+    });
+
+    const noInicio = leiturasDoPlano;
+    expect(noInicio).toBe(1); // a leitura de partida
+
+    // 1. mudou o PLANO: relê
+    const tasks = join(dir, "docs", "exportacao-csv", "sprint-01", "tasks.md");
+    writeFileSync(tasks, readFileSync(tasks, "utf8").replace("status: em_andamento", "status: concluida"));
+    await espera(400);
+    expect(leiturasDoPlano, "mudança no plano deveria reler").toBe(noInicio + 1);
+
+    // 2. mudou só o RASTRO: NÃO relê o plano
+    const depoisDoPlano = leiturasDoPlano;
+    const rastro = join(dir, "docs", "eventos", "exportacao-csv.jsonl");
+    writeFileSync(
+      rastro,
+      readFileSync(rastro, "utf8") +
+        '{"ts":"2026-08-29T15:00:00Z","expx_eventos":1,"trabalho_id":"exportacao-csv","ferramenta":"sprintx","origem":"hook","evento":"suite_executada","fase":"f6","task":"T-01.02","agente":"principal","resultado":"ok","detalhe":"nova","arquivos":[]}\n',
+    );
+    await espera(400);
+    expect(leiturasDoPlano, "mudança só no rastro NÃO deveria reler o plano").toBe(depoisDoPlano);
+  });
+
+  it("funcional: id posicional marca o trabalho nomeado como o corrente", async () => {
+    dir = copiar("varios-trabalhos");
+    const f = saidaFalsa();
+
+    sessao = await executarWatch({
+      raiz: dir,
+      opcoes: {
+        trabalho: "bloqueado",
+        todos: false,
+        arvore: false,
+        ajuda: false,
+        colunas: 100,
+      },
+      escrever: f.escrever,
+      cor: false,
+      debounceMs: 40,
+      pulsoMs: 0,
+    });
+
+    const linhas = f.linhas.flat().join("").split("\n");
+
+    // O painel é uma FROTA: os outros trabalhos continuam na tela, porque
+    // acompanhar várias ocorrências ao mesmo tempo é o ponto dele. O que o id
+    // posicional faz é dizer qual é o corrente — o que leva a marca `▸` e sobe
+    // para o topo.
+    const iBloqueado = linhas.findIndex((l) => l.includes("bloqueado"));
+    const iAndamento = linhas.findIndex((l) => l.includes("em-andamento"));
+    expect(iBloqueado).toBeGreaterThanOrEqual(0);
+    expect(iAndamento).toBeGreaterThanOrEqual(0);
+    expect(iBloqueado, "o corrente vem primeiro").toBeLessThan(iAndamento);
+    expect(linhas[iBloqueado]).toContain("▸");
+    expect(linhas[iAndamento]).not.toContain("▸");
+  });
+
+  it("funcional: projeto sem .expx escreve mensagem clara e devolve código zero", async () => {
+    dir = copiar("sem-trabalho"); // não tem .expx/
+    const f = saidaFalsa();
+
+    const r = await executarWatch({
+      raiz: dir,
+      opcoes: { trabalho: undefined, todos: false, ajuda: false, colunas: 80 },
+      escrever: f.escrever,
+      cor: false,
+      debounceMs: 40,
+    });
+
+    expect(r.codigo).toBe(0);
+    expect(r.encerrou).toBe(true);
+    expect(f.linhas.flat().join("")).toContain("Expx");
+    sessao = undefined; // já encerrou sozinho
+  });
+
+  it("funcional: estado.json corrompido continua funcionando pela leitura do plano", async () => {
+    dir = copiar("estado-invalido");
+    const f = saidaFalsa();
+
+    sessao = await executarWatch({
+      raiz: dir,
+      opcoes: { trabalho: undefined, todos: false, ajuda: false, colunas: 80 },
+      escrever: f.escrever,
+      cor: false,
+      debounceMs: 40,
+    });
+
+    const texto = f.linhas.flat().join("");
+    // a árvore veio do plano, apesar do estado.json quebrado
+    expect(texto).toContain("exportacao-csv");
+    expect(texto).toContain("T-01.01");
+  });
+
+  it("funcional: `usarInk` devolve o store, e reage aos mesmos gatilhos que o motor antigo", async () => {
+    dir = copiar("com-estado");
+    const f = saidaFalsa();
+
+    sessao = await executarWatch({
+      raiz: dir,
+      opcoes: { trabalho: undefined, todos: false, ajuda: false, colunas: 80 },
+      escrever: f.escrever,
+      cor: false,
+      debounceMs: 40,
+      pulsoMs: 0,
+      usarInk: true,
+    });
+
+    // Motor Ink: nada escrito pela função `escrever` injetável — `renderInkApp`
+    // (chamado por `principal.ts`, não por este loop) escreve em
+    // `process.stdout` diretamente.
+    expect(f.linhas.length).toBe(0);
+    expect(sessao.store).toBeDefined();
+    const visaoInicial = sessao.store?.obter();
+    expect(visaoInicial?.frota.length).toBeGreaterThan(0);
+
+    // O gatilho de estado ainda atualiza o store, exatamente como atualizaria
+    // a variável `visao` do motor antigo.
+    let notificado = 0;
+    sessao.store?.inscrever(() => {
+      notificado++;
+    });
+    const estadoPath = join(dir, ".expx", "estado.json");
+    writeFileSync(
+      estadoPath,
+      readFileSync(estadoPath, "utf8").replace('"fase": "f6"', '"fase": "f5"'),
+    );
+    await espera(300);
+
+    expect(notificado).toBeGreaterThan(0);
+    expect(sessao.store?.obter().estado?.fase).toBe("f5");
+  });
+
+  it("funcional: `--todos` usa sempre o motor antigo, mesmo com `usarInk`", async () => {
+    dir = copiar("varios-trabalhos");
+    const f = saidaFalsa();
+
+    sessao = await executarWatch({
+      raiz: dir,
+      opcoes: { trabalho: undefined, todos: true, ajuda: false, colunas: 80 },
+      escrever: f.escrever,
+      cor: false,
+      debounceMs: 40,
+      pulsoMs: 0,
+      usarInk: true,
+    });
+
+    // `--todos` é formato tabular de propósito: sem ganho em virar painel,
+    // então continua sempre no motor antigo, mesmo com Ink disponível.
+    expect(sessao.store).toBeUndefined();
+    expect(f.linhas.length).toBeGreaterThan(0);
+  });
+});

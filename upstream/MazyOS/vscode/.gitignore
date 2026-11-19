@@ -1,0 +1,5 @@
+node_modules/
+dist/
+mazyos/
+*.vsix
+.vscode-test/

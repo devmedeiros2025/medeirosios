@@ -1,0 +1,188 @@
+/* O campo de pedido. A moldura acende na tinta do agente quando você escreve. */
+
+.mz-pedido {
+  margin: var(--mz-4) 0 0;
+}
+
+.mz-compositor {
+  position: relative;
+  padding: 10px 8px 8px 12px;
+  border-radius: var(--mz-r-4);
+  border: 1px solid var(--vscode-input-border, var(--mz-borda));
+  background: color-mix(in oklab, var(--vscode-input-background, var(--mz-poco)) 88%, var(--mz-quente));
+  box-shadow: var(--mz-sombra-1);
+  transition:
+    border-color var(--mz-medio) var(--mz-curva),
+    box-shadow var(--mz-medio) var(--mz-curva);
+}
+.mz-compositor:focus-within {
+  border-color: color-mix(in srgb, var(--mz-tinta) 75%, transparent);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--mz-tinta) 16%, transparent),
+    var(--mz-sombra-2);
+}
+body.vscode-high-contrast .mz-compositor:focus-within,
+body.vscode-high-contrast-light .mz-compositor:focus-within {
+  border-color: var(--vscode-focusBorder);
+  box-shadow: none;
+}
+
+.mz-compositor-campo {
+  display: block;
+  width: 100%;
+  min-height: 21px;
+  max-height: calc(21px * var(--linhas-max, 4) + 4px);
+  padding: 2px 4px 2px 0;
+  border: 0;
+  background: transparent;
+  color: var(--vscode-input-foreground, var(--mz-fg));
+  font-size: 13.5px;
+  line-height: 21px;
+  resize: none;
+  overflow-y: auto;
+  field-sizing: content;
+}
+.mz-compositor-campo::placeholder {
+  color: var(--vscode-input-placeholderForeground, var(--mz-fg-calado));
+}
+.mz-compositor-campo:focus-visible {
+  outline: none;
+}
+
+.mz-compositor-base {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mz-2);
+  margin-top: 6px;
+}
+.mz-compositor-rodape {
+  display: flex;
+  align-items: center;
+  gap: var(--mz-2);
+  min-width: 0;
+  font-size: var(--mz-t-1);
+  color: var(--mz-fg-calado);
+  overflow: hidden;
+}
+.mz-compositor-quem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--mz-fg);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mz-compositor-quem .mz-calado {
+  font-weight: 400;
+}
+.mz-compositor-quem-ponto {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mz-tinta);
+}
+.mz-compositor-atalho {
+  flex: none;
+  padding: 1px 5px;
+  border-radius: var(--mz-r-1);
+  border: 1px solid var(--mz-linha-fina);
+  background: none;
+  box-shadow: none;
+  color: var(--mz-fg-calado);
+  font-family: var(--mz-texto);
+  font-size: 10.5px;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity var(--mz-medio) var(--mz-curva);
+}
+.mz-compositor:focus-within .mz-compositor-atalho {
+  opacity: 1;
+}
+@container (max-width: 270px) {
+  .mz-compositor-atalho {
+    display: none;
+  }
+}
+.mz-compositor-aviso {
+  color: var(--mz-atencao);
+  font-size: 11.5px;
+}
+
+.mz-compositor-enviar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--mz-tinta);
+  color: var(--mz-sobre-tinta);
+  transition:
+    background var(--mz-medio) var(--mz-curva),
+    color var(--mz-medio) var(--mz-curva),
+    transform var(--mz-rapido) var(--mz-curva);
+}
+.mz-compositor-enviar:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: color-mix(in oklab, var(--mz-tinta) 86%, var(--mz-fg));
+}
+.mz-compositor-enviar:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+}
+.mz-compositor-enviar:disabled {
+  background: var(--mz-realce-forte);
+  color: var(--mz-fg-calado);
+}
+.mz-compositor-enviar:focus-visible {
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.mz-compositor-acima {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -2px 0 8px -4px;
+}
+.mz-chip-skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  max-width: 100%;
+  padding: 2px 2px 2px 10px;
+  border-radius: var(--mz-r-pilula);
+  background: color-mix(in srgb, var(--mz-tinta) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mz-tinta) 34%, transparent);
+  color: var(--mz-tinta-texto);
+  font-size: var(--mz-t-2);
+  font-weight: 600;
+  animation: mz-entra var(--mz-medio) var(--mz-curva) both;
+}
+.mz-chip-skill > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mz-chip-skill svg {
+  flex: none;
+}
+.mz-chip-skill-tirar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: inherit;
+  transition: background var(--mz-rapido) var(--mz-curva);
+}
+.mz-chip-skill-tirar:hover {
+  background: color-mix(in srgb, var(--mz-tinta) 22%, transparent);
+}

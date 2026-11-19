@@ -1,0 +1,6 @@
+.DS_Store
+*.log
+docs/*/
+!docs/.gitkeep
+!docs/contrato/
+docs/eventos/

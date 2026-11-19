@@ -1,0 +1,37 @@
+{
+  "lock_version": 1,
+  "cli_version": "0.5.3",
+  "harness": [
+    "claude"
+  ],
+  "skills": {
+    "prodx": {
+      "repositorio": "https://github.com/bittencourtthulio/prodx",
+      "referencia": "main",
+      "travado": false,
+      "commit": "ed7c7343165fc3b7dcf97895568015632c07457c",
+      "resolvido_em": "2026-09-09",
+      "arquivos": {
+        "DECISOES-DA-SKILL.md": "9d283a6e7733fcd45eafd4484f38fc57b7f2800b9f905a455953f81ca9cd6645",
+        "SKILL.md": "63495863b537422f3db8f2970cdd7c40910c4a0b33b9a150d9908daff615ab53",
+        "assets/TEMPLATE-BRIEFING.md": "0c7001ce05b6e714cbaa58673cc8d463cf1ee42770601186fb9d79c4da7b0f82",
+        "assets/TEMPLATE-INDICE.md": "241200b57de3083d7c3a751eb8ea652c8807f156388f559bc587309a48cbfc2a",
+        "assets/TEMPLATE-PRODUTO.md": "7a40ff741afcdb662b96a43ed358b84fbcb8b5939462bb270c82340f9330593a",
+        "assets/TEMPLATE-VEREDITO.md": "257e9065f24d900028d685341659463af67b5fd5d062f676fcb8b53e31d7215a",
+        "assets/TEMPLATE-avaliacao.md": "002623cdc5835c3d6aa83fe8c43641c2158a0e2b3383ccddc6aba8125e693c50",
+        "assets/TEMPLATE-existencia.md": "60789c0e8c34a2b8f102ef7484870d9edb298011ac7e7f46e59bdbc4c6a4f96f",
+        "assets/TEMPLATE-pedido.md": "4d21f82a2978bf8b30dcbd924d11f806804f1dc942cd5e2747433d2b43c2e097",
+        "assets/TEMPLATE-resposta-cliente.md": "5b11a929eed4a1f7606b541d9b044c5c4d2ec9e1d1fe05850f84f610e4619925",
+        "references/00-triagem.md": "1d5bc0dc8c5c8a7a38a400d84f95d1a0a05aa09191252b3ed1833c8cff3c84ab",
+        "references/01-produto.md": "73470b45832e96204bf1145bb8fc7ad5f811bf5fbf0cb6dec5c1a32c2bd84173",
+        "references/02-pedido.md": "ee47901270a8483dd805c3586ba5160b8ba0ff23fba211f78bcb621ac13a9c78",
+        "references/03-existencia.md": "bf69af4e476a99ba5402dea3451f5ac3982a91dc6489becbfb52534f1043ff91",
+        "references/04-avaliacao.md": "4e3f75c7898e9bd860766feef666c21df29db7c81397df1d6341799b583b1e9f",
+        "references/05-veredito.md": "475fdd06cb8138530c89bd930fae3a60f259f15f2e9f5183f2ec6d9fb4b4cec5",
+        "references/integracao/memox.md": "a20270609b23f924977fe6f49805fb7a651ff3003415b690e12c53c86f16ffb1",
+        "references/integracao/runx.md": "f4197e4cb2604a685a986a239fbdd3999b38ad0464c786d01ede0d9dff9ca7b4",
+        "references/integracao/sprintx.md": "df4307bd683c81eb783acfde2b3c8086a323ad24acc02d4389a4a15d4adb0d85"
+      }
+    }
+  }
+}

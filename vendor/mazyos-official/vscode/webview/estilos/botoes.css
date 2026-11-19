@@ -1,0 +1,187 @@
+/* Botões. Alvo mínimo de 28 px. */
+
+.mz-botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 4px 12px;
+  border-radius: var(--mz-r-2);
+  border: 1px solid transparent;
+  font-size: var(--mz-t-3);
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    background var(--mz-rapido) var(--mz-curva),
+    border-color var(--mz-rapido) var(--mz-curva),
+    color var(--mz-rapido) var(--mz-curva),
+    transform var(--mz-rapido) var(--mz-curva);
+}
+.mz-botao span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mz-botao svg {
+  flex: none;
+}
+.mz-botao:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.mz-botao:disabled {
+  opacity: 0.5;
+}
+.mz-botao-cheio {
+  width: 100%;
+}
+
+/* Na tinta do agente */
+.mz-botao-principal {
+  background: var(--mz-tinta, var(--vscode-button-background));
+  color: var(--mz-sobre-tinta, var(--vscode-button-foreground));
+}
+.mz-botao-principal:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--mz-tinta, var(--vscode-button-background)) 88%, var(--mz-fg));
+}
+
+/* Na cor da marca: só pras ações do próprio MazyOS (ligar na pasta) */
+.mz-botao-marca {
+  background: var(--mz-brasa);
+  color: var(--mz-carvao);
+  min-height: 34px;
+  padding: 6px 16px;
+  border-radius: var(--mz-r-3);
+  font-weight: 600;
+}
+body.vscode-light .mz-botao-marca {
+  background: #b9583a;
+  color: #fff;
+}
+.mz-botao-marca:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--mz-brasa) 86%, #fff);
+}
+body.vscode-light .mz-botao-marca:hover:not(:disabled) {
+  background: #a84d30;
+}
+
+.mz-botao-secundario {
+  background: var(--vscode-button-secondaryBackground, var(--mz-realce));
+  color: var(--vscode-button-secondaryForeground, var(--mz-fg));
+  border-color: var(--mz-linha-fina);
+}
+.mz-botao-secundario:hover:not(:disabled) {
+  background: var(--vscode-button-secondaryHoverBackground, var(--mz-realce-forte));
+}
+
+.mz-botao-fantasma {
+  color: var(--mz-fg-calado);
+  padding-inline: 8px;
+}
+.mz-botao-fantasma:hover:not(:disabled) {
+  color: var(--mz-fg);
+  background: var(--mz-realce);
+}
+
+body.vscode-high-contrast .mz-botao,
+body.vscode-high-contrast-light .mz-botao {
+  border-color: var(--vscode-contrastBorder, currentColor);
+}
+
+.mz-botao[data-ok] svg {
+  color: var(--mz-ok);
+}
+
+.mz-botao-icone {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--mz-r-2);
+  color: var(--mz-fg-calado);
+  transition:
+    background var(--mz-rapido) var(--mz-curva),
+    color var(--mz-rapido) var(--mz-curva);
+}
+.mz-botao-icone:hover:not(:disabled) {
+  color: var(--mz-fg);
+  background: var(--vscode-toolbar-hoverBackground, var(--mz-realce));
+}
+.mz-botao-icone:disabled {
+  opacity: 0.4;
+}
+
+.mz-botao-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  padding: 2px 8px;
+  border-radius: var(--mz-r-1);
+  font-size: var(--mz-t-1);
+  color: var(--mz-fg-calado);
+}
+.mz-botao-mini:hover {
+  color: var(--mz-fg);
+  background: var(--mz-realce);
+}
+.mz-botao-mini[data-ok] {
+  color: var(--mz-ok);
+}
+
+/* Seções que abrem e fecham */
+.mz-secao {
+  padding: var(--mz-2) 0 var(--mz-3);
+}
+.mz-secao + .mz-secao {
+  border-top: 1px solid var(--mz-linha-fina);
+}
+.mz-secao-cabeca {
+  display: flex;
+  align-items: center;
+  gap: var(--mz-2);
+  min-height: 32px;
+}
+.mz-secao-alternar {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  padding: 4px 0;
+  text-align: left;
+}
+.mz-secao-seta {
+  align-self: center;
+  color: var(--mz-fg-calado);
+  transition: transform var(--mz-medio) var(--mz-curva);
+}
+.mz-secao[data-aberta] > .mz-secao-cabeca .mz-secao-seta {
+  transform: rotate(90deg);
+}
+.mz-secao-titulo {
+  font-family: var(--mz-serifa);
+  font-size: var(--mz-s-2);
+  line-height: 1;
+  letter-spacing: 0.005em;
+}
+.mz-secao-extra {
+  display: flex;
+  align-items: center;
+  gap: var(--mz-1);
+  color: var(--mz-fg-calado);
+  font-size: var(--mz-t-1);
+}
+.mz-secao-corpo {
+  padding-top: var(--mz-1);
+}
+
+.mz-marca {
+  color: var(--mz-brasa);
+  flex: none;
+}
+body.vscode-light .mz-marca {
+  color: #b9583a;
+}

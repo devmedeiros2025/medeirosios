@@ -1,0 +1,25 @@
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Tipos que o Claude Code escreve ao carregar o mod (regenerados a cada load)
+.claude-plugin/types/
+.mcpb-cache/
+
+# Dependências e temporários
+node_modules/
+*.log
+*.tmp
+
+# Configuração local do Claude Code
+.claude/settings.local.json
+
+# Chaves e credenciais: nunca vão pro repositório
+.env
+.env.*
+!.env.example
+!.env.exemplo
+*.pem
+*.key

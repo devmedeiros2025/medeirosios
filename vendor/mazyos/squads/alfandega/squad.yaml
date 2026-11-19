@@ -1,0 +1,113 @@
+squad:
+  code: tarefas-alfandega
+  setor: trafego-pago
+  grupo: revisao
+  sessao: tarefas
+  name: Alfandega — Revisora de Tarefas
+  description: Analisa e revisa tarefas do time de tráfego pago, emitindo veredito de aprovação ou reprovação com ajustes específicos para cada tipo de entrega.
+  icon: shield-check
+  version: "1.0.0"
+
+  company: "../empresa.md"
+  preferences: "../preferencias.md"
+  memory: "_memory/memories.md"
+
+  target_audience: Carol — gestora do time de tráfego pago
+  platform: expxflow
+  format: task-review
+
+  schedule:
+    enabled: false
+
+  skills:
+    - web_search
+    - web_fetch
+    - file_management
+
+  data: []
+
+  agents:
+    - id: coordenador
+      name: "Bruno Tavares"
+      icon: compass
+      avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Bruno"
+      prompt: agents/coordenador.md
+
+    - id: avaliador-arte
+      name: "Tobias Ramos"
+      icon: eye
+      avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Tobias"
+      prompt: agents/avaliador-arte.md
+
+    - id: avaliador-lp
+      name: "Vera Nunes"
+      icon: layout
+      avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Vera"
+      prompt: agents/avaliador-lp.md
+
+    - id: avaliador-copy
+      name: "Sérgio Alves"
+      icon: pencil
+      avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Sergio"
+      prompt: agents/avaliador-copy.md
+
+    - id: avaliador-campanha
+      name: "Priscila Moura"
+      icon: megaphone
+      avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Priscila"
+      prompt: agents/avaliador-campanha.md
+
+    - id: avaliador-automacao
+      name: "Diego Campos"
+      icon: zap
+      avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Diego"
+      prompt: agents/avaliador-automacao.md
+
+  pipeline:
+    steps:
+      - id: step-01
+        agent: coordenador
+        label: Contextualizar tarefa e identificar tipo + cliente
+        execution: inline
+
+      - id: step-02
+        agent: avaliador-arte
+        label: Avaliar criativo pelos 8 critérios visuais
+        deliverFrom: coordenador
+        execution: inline
+        condition: tipo == "arte"
+
+      - id: step-03
+        agent: avaliador-lp
+        label: Avaliar landing page — layout, fidelidade, bugs, responsividade
+        deliverFrom: coordenador
+        execution: inline
+        condition: tipo == "lp"
+
+      - id: step-04
+        agent: avaliador-copy
+        label: Avaliar copy — estrutura, alinhamento, briefing do cliente
+        deliverFrom: coordenador
+        execution: inline
+        condition: tipo == "copy"
+
+      - id: step-05
+        agent: avaliador-campanha
+        label: Avaliar configuração de campanha — objetivo, segmentação, rastreamento
+        deliverFrom: coordenador
+        execution: inline
+        condition: tipo == "campanha"
+
+      - id: step-06
+        agent: avaliador-automacao
+        label: Avaliar automação/integração — fluxo, gatilhos, funcionamento
+        deliverFrom: coordenador
+        execution: inline
+        condition: tipo == "automacao"
+
+      - id: step-07
+        agent: coordenador
+        label: Consolidar veredito final e gerar output para ExpxFlow
+        deliverFrom: avaliador-arte,avaliador-lp,avaliador-copy,avaliador-campanha,avaliador-automacao
+        execution: inline
+        produces_format: true

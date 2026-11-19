@@ -1,0 +1,274 @@
+/* Base: reset leve, foco visível e peças comuns. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--mz-fundo);
+  color: var(--mz-fg);
+  font-family: var(--mz-texto);
+  font-size: var(--mz-tam);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+body[data-view='console'] {
+  background: var(--mz-fundo-editor);
+}
+
+#raiz {
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+a {
+  color: var(--vscode-textLink-foreground, var(--mz-tinta-texto, #3794ff));
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 1px solid var(--mz-foco);
+  outline-offset: 2px;
+  border-radius: var(--mz-r-1);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--mz-brasa) 32%, transparent);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.mz-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.mz-mono {
+  font-family: var(--mz-mono);
+  font-size: 0.92em;
+}
+
+.mz-calado {
+  color: var(--mz-fg-calado);
+}
+
+/* Ponto de status: o texto ao lado sempre diz o estado; a cor só reforça */
+.mz-ponto {
+  --cor: var(--mz-fg-calado);
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cor);
+}
+.mz-ponto[data-estado='ok'] {
+  --cor: var(--mz-ok);
+}
+.mz-ponto[data-estado='vazio'] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--mz-fg-calado);
+}
+.mz-ponto[data-estado='ausente'] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mz-fg-calado) 60%, transparent);
+}
+.mz-ponto[data-estado='ausente']::after {
+  content: '';
+  position: absolute;
+  inset: 3px 1px auto;
+  height: 1.5px;
+  background: color-mix(in srgb, var(--mz-fg-calado) 70%, transparent);
+}
+.mz-ponto[data-estado='atencao'] {
+  --cor: var(--mz-atencao);
+}
+.mz-ponto[data-estado='erro'] {
+  --cor: var(--mz-erro);
+}
+.mz-ponto[data-estado='rodando'] {
+  --cor: var(--mz-tinta, var(--mz-brasa));
+}
+.mz-ponto[data-estado='rodando']::before,
+.mz-ponto[data-estado='verificando']::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--cor);
+  animation: mz-pulso 1.6s var(--mz-curva) infinite;
+}
+.mz-ponto[data-estado='verificando'] {
+  animation: mz-respira 1.4s ease-in-out infinite;
+}
+
+@keyframes mz-pulso {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes mz-respira {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes mz-entra {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mz-gira {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mz-gira {
+  animation: mz-gira 0.9s linear infinite;
+}
+
+/* Linha de esqueleto enquanto algo carrega */
+.mz-esqueleto {
+  display: block;
+  height: 10px;
+  border-radius: var(--mz-r-1);
+  background: linear-gradient(90deg, var(--mz-realce) 0%, var(--mz-realce-forte) 50%, var(--mz-realce) 100%);
+  background-size: 200% 100%;
+  animation: mz-brilho 1.4s linear infinite;
+}
+
+@keyframes mz-brilho {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Campo de texto comum (busca, etc.) */
+.mz-campo {
+  width: 100%;
+  min-height: 28px;
+  padding: 5px 8px;
+  border-radius: var(--mz-r-2);
+  border: 1px solid var(--vscode-input-border, var(--mz-borda));
+  background: var(--vscode-input-background, var(--mz-poco));
+  color: var(--vscode-input-foreground, var(--mz-fg));
+  transition: border-color var(--mz-rapido) var(--mz-curva);
+}
+.mz-campo::placeholder {
+  color: var(--vscode-input-placeholderForeground, var(--mz-fg-calado));
+}
+.mz-campo:focus-visible {
+  outline: none;
+  border-color: var(--mz-foco);
+}
+
+/* Chip de arquivo */
+.mz-chip-arquivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 26px;
+  padding: 3px 10px 3px 8px;
+  border-radius: var(--mz-r-pilula);
+  border: 1px solid var(--mz-linha-fina);
+  background: var(--mz-elevado);
+  font-size: var(--mz-t-2);
+  color: var(--mz-fg);
+  transition:
+    border-color var(--mz-rapido) var(--mz-curva),
+    background var(--mz-rapido) var(--mz-curva);
+}
+.mz-chip-arquivo:hover {
+  border-color: color-mix(in srgb, var(--mz-tinta, var(--mz-brasa)) 55%, transparent);
+  background: var(--mz-elevado-2);
+}
+.mz-chip-arquivo svg {
+  flex: none;
+  color: var(--mz-tinta-texto, var(--mz-texto-brasa));
+}
+.mz-chip-arquivo span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--mz-mono);
+  font-size: 11.5px;
+}
+.mz-chip-arquivo small {
+  color: var(--mz-fg-calado);
+  font-size: var(--mz-t-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .mz-ponto[data-estado='rodando']::before,
+  .mz-ponto[data-estado='verificando']::before {
+    display: none;
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "product": "MEDEIROS SYSTEM",
+  "skills": [
+    {
+      "id": "expx-buildx",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/buildx/.claude/skills/buildx/SKILL.md"
+    },
+    {
+      "id": "expx-designx",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/designx/.claude/skills/designx/SKILL.md"
+    },
+    {
+      "id": "expx-legadox",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/legadox/.claude/skills/legadox/SKILL.md"
+    },
+    {
+      "id": "expx-memox",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/memox/.claude/skills/memox/SKILL.md"
+    },
+    {
+      "id": "expx-mergex",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/mergex/.claude/skills/mergex/SKILL.md"
+    },
+    {
+      "id": "expx-prodx",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/prodx/.claude/skills/prodx/SKILL.md"
+    },
+    {
+      "id": "expx-runx",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/runx/.claude/skills/runx/SKILL.md"
+    },
+    {
+      "id": "expx-sprintx",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/sprintx/.claude/skills/sprintx/SKILL.md"
+    },
+    {
+      "id": "expx-stackx",
+      "origin": "bittencourtthulio",
+      "source": "vendor/expx/stackx/.claude/skills/stackx/SKILL.md"
+    },
+    {
+      "id": "mazyos-abrir",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/abrir/SKILL.md"
+    },
+    {
+      "id": "mazyos-analisar-dados",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/analisar-dados/SKILL.md"
+    },
+    {
+      "id": "mazyos-anuncio-google",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/anuncio-google/SKILL.md"
+    },
+    {
+      "id": "mazyos-aprovar-post",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/aprovar-post/SKILL.md"
+    },
+    {
+      "id": "mazyos-atualizar",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/atualizar/SKILL.md"
+    },
+    {
+      "id": "mazyos-carrossel",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/carrossel/SKILL.md"
+    },
+    {
+      "id": "mazyos-criacao-canonica-de-skills",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/criacao-canonica-de-skills/SKILL.md"
+    },
+    {
+      "id": "mazyos-email-profissional",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/email-profissional/SKILL.md"
+    },
+    {
+      "id": "mazyos-instalar",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/instalar/SKILL.md"
+    },
+    {
+      "id": "mazyos-mapear-rotinas",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/mapear-rotinas/SKILL.md"
+    },
+    {
+      "id": "mazyos-novo-projeto",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/novo-projeto/SKILL.md"
+    },
+    {
+      "id": "mazyos-prospecta-maps",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/prospecta-maps/SKILL.md"
+    },
+    {
+      "id": "mazyos-publicar-tema",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/publicar-tema/SKILL.md"
+    },
+    {
+      "id": "mazyos-relatorio-ads",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/relatorio-ads/SKILL.md"
+    },
+    {
+      "id": "mazyos-responder-avaliacoes",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/responder-avaliacoes/SKILL.md"
+    },
+    {
+      "id": "mazyos-salvar",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/salvar/SKILL.md"
+    },
+    {
+      "id": "mazyos-seo",
+      "origin": "mazyos-official",
+      "source": "vendor/mazyos-official/skills/seo/SKILL.md"
+    },
+    {
+      "id": "mazyos-marketing",
+      "origin": "mazyos-local",
+      "source": "vendor/mazyos/marketing/README.md"
+    },
+    {
+      "id": "mazyos-revisao",
+      "origin": "mazyos-local",
+      "source": "vendor/mazyos/squads/alfandega/squad.yaml"
+    },
+    {
+      "id": "mazyos-vendas",
+      "origin": "mazyos-local",
+      "source": "vendor/mazyos/harvey/README.md"
+    },
+    {
+      "id": "mazyos-conteudo",
+      "origin": "mazyos-local",
+      "source": "vendor/mazyos/biblioteca/carrosseis-infinitos-com-qualquer-ia-main/README.md"
+    },
+    {
+      "id": "mazyos-engenharia-reversa",
+      "origin": "mazyos-local",
+      "source": "vendor/mazyos/biblioteca/rea-engenharia-reversa-main/README.md"
+    }
+  ]
+}

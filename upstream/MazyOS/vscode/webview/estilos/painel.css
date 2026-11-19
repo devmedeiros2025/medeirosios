@@ -1,0 +1,120 @@
+/* O painel da barra lateral: uma coluna de 260 a 420 px. */
+
+.mz-painel {
+  container-type: inline-size;
+  padding: var(--mz-4) 14px var(--mz-2);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mz-secoes {
+  margin-top: var(--mz-3);
+}
+
+.mz-secao-rodando {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mz-tinta-texto);
+  font-weight: 600;
+}
+.mz-secao-rodando::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mz-tinta);
+  animation: mz-respira 1.4s ease-in-out infinite;
+}
+
+.mz-rodape {
+  margin-top: auto;
+  padding: var(--mz-3) 0 var(--mz-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mz-2);
+  border-top: 1px solid var(--mz-linha-fina);
+  color: var(--mz-fg-calado);
+  font-size: var(--mz-t-1);
+}
+.mz-secoes + .mz-rodape,
+.mz-agentes + .mz-rodape {
+  margin-top: var(--mz-6);
+}
+.mz-rodape-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.mz-rodape-acoes {
+  display: inline-flex;
+  gap: 2px;
+}
+
+/* Memória */
+.mz-memoria {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+}
+.mz-memoria-item {
+  display: flex;
+  align-items: center;
+  gap: var(--mz-2);
+  width: 100%;
+  min-height: 30px;
+  padding: 5px 8px;
+  border-radius: var(--mz-r-2);
+  text-align: left;
+  transition: background var(--mz-rapido) var(--mz-curva);
+}
+.mz-memoria-item:hover {
+  background: var(--mz-realce);
+}
+.mz-memoria-icone {
+  flex: none;
+  color: var(--mz-fg-calado);
+}
+.mz-memoria-rotulo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+}
+.mz-memoria-estado {
+  flex: none;
+  font-size: var(--mz-t-1);
+  color: var(--mz-fg-calado);
+}
+.mz-memoria-item[data-tipo='vazio'] .mz-memoria-estado {
+  color: var(--mz-atencao);
+}
+.mz-memoria-item[data-tipo='ausente'] .mz-memoria-rotulo {
+  color: var(--mz-fg-calado);
+}
+
+.mz-medidor {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.mz-medidor-barras {
+  display: inline-flex;
+  gap: 2px;
+}
+.mz-medidor-barras span {
+  width: 9px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--mz-realce-forte);
+}
+.mz-medidor-barras span[data-cheio] {
+  background: var(--mz-ok);
+}

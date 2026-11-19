@@ -1,0 +1,142 @@
+/* A linha do tempo: um fio na tinta do agente, com um nó por passo. */
+
+.mz-tempo-secao {
+  margin: var(--mz-5) 0 0;
+}
+
+.mz-tempo {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.mz-tempo::before {
+  content: '';
+  position: absolute;
+  left: 11.5px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--mz-tinta) 50%, transparent),
+    color-mix(in srgb, var(--mz-tinta) 14%, transparent)
+  );
+}
+
+.mz-passo {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
+  min-height: 28px;
+  padding: 2px 0;
+  animation: mz-entra var(--mz-medio) var(--mz-curva) both;
+}
+
+.mz-passo-no {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--mz-fundo-editor);
+  border: 1px solid var(--mz-linha-fina);
+  color: var(--mz-fg-calado);
+  transition:
+    border-color var(--mz-medio) var(--mz-curva),
+    color var(--mz-medio) var(--mz-curva);
+}
+.mz-passo-no-pequeno {
+  background: transparent;
+  border-color: transparent;
+}
+.mz-passo-no-pequeno::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--mz-tinta) 70%, var(--mz-fundo-editor));
+  box-shadow: 0 0 0 3px var(--mz-fundo-editor);
+}
+
+.mz-passo-texto {
+  padding-top: 4px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.mz-passo-estado {
+  display: inline-flex;
+  padding-top: 5px;
+  color: var(--mz-fg-calado);
+}
+
+.mz-passo[data-estado='rodando'] .mz-passo-no {
+  border-color: color-mix(in srgb, var(--mz-tinta) 70%, transparent);
+  color: var(--mz-tinta-texto);
+}
+.mz-passo[data-estado='rodando'] .mz-passo-estado {
+  color: var(--mz-tinta-texto);
+}
+.mz-passo[data-estado='ok'] .mz-passo-estado {
+  color: var(--mz-ok);
+}
+.mz-passo[data-estado='erro'] .mz-passo-no {
+  border-color: color-mix(in srgb, var(--mz-erro) 60%, transparent);
+  color: var(--mz-erro);
+}
+.mz-passo[data-estado='erro'] .mz-passo-estado,
+.mz-passo[data-estado='erro'] .mz-passo-texto {
+  color: var(--mz-erro);
+}
+
+.mz-passo[data-tipo='aviso'] .mz-passo-no {
+  color: var(--mz-atencao);
+}
+.mz-passo[data-tipo='aviso'] .mz-passo-texto {
+  color: var(--mz-fg-calado);
+  font-size: var(--mz-t-2);
+}
+
+.mz-passo[data-tipo='texto'],
+.mz-passo[data-tipo='arquivos'] {
+  grid-template-columns: 24px minmax(0, 1fr);
+}
+.mz-passo-fala {
+  padding: 3px 0 4px;
+  color: var(--mz-fg-calado);
+}
+.mz-passo-arquivos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 0 4px;
+}
+
+.mz-tempo-alternar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  margin: 0 0 4px -6px;
+  padding: 2px 8px 2px 6px;
+  border-radius: var(--mz-r-2);
+  font-size: var(--mz-t-2);
+  color: var(--mz-fg-calado);
+}
+.mz-tempo-alternar:hover {
+  background: var(--mz-realce);
+  color: var(--mz-fg);
+}
+.mz-tempo-seta {
+  transition: transform var(--mz-medio) var(--mz-curva);
+}
+.mz-tempo-alternar[aria-expanded='true'] .mz-tempo-seta {
+  transform: rotate(90deg);
+}

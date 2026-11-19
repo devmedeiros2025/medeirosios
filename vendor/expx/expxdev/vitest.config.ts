@@ -1,0 +1,60 @@
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  test: {
+    projects: [
+      {
+        // Parser e servidor do painel: rodam em Node de verdade, tocando o disco.
+        test: {
+          name: "servidor",
+          include: ["src/**/*.test.ts"],
+          exclude: ["src/cli/**", "src/teste/**", "src/nucleo/**", "src/plugin/**", "src/harness/**", "src/update/**", "src/doctor/**", "src/watch/ink/**"],
+          environment: "node",
+          testTimeout: 20000,
+        },
+      },
+      {
+        // Componentes Ink do watch: renderizam para string via ink-testing-library,
+        // sem DOM — só precisam do plugin React para transformar o JSX.
+        plugins: [react()],
+        test: {
+          name: "watch-ink",
+          include: ["src/watch/ink/**/*.test.tsx"],
+          environment: "node",
+          testTimeout: 20000,
+        },
+      },
+      {
+        // CLI: escreve em disco de verdade, em pasta temporária, e chama o git.
+        test: {
+          name: "cli",
+          include: [
+            "src/cli/**/*.test.ts",
+            "src/teste/**/*.test.ts",
+            "src/nucleo/**/*.test.ts",
+            "src/plugin/**/*.test.ts",
+            "src/harness/**/*.test.ts",
+            "src/update/**/*.test.ts",
+            "src/doctor/**/*.test.ts",
+          ],
+          environment: "node",
+          // Estes testes clonam repositorios git de verdade em pasta temporaria.
+          // Sob a carga da suite completa em paralelo, 30s nao bastam: o teste
+          // falhava por timeout, nunca por assercao.
+          testTimeout: 120000,
+        },
+      },
+      {
+        // Telas: precisam de DOM.
+        plugins: [react()],
+        test: {
+          name: "ui",
+          include: ["ui/src/**/*.test.{ts,tsx}"],
+          environment: "jsdom",
+          testTimeout: 20000,
+        },
+      },
+    ],
+  },
+});

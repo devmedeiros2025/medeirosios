@@ -1,0 +1,181 @@
+/* Tokens do MazyOS.
+   Superfícies e texto vêm do tema do editor (--vscode-*). A marca entra por cima:
+   a brasa (terracota), a tinta de cada agente, a serifada de display e o movimento. */
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../fontes/instrument-serif.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../fontes/instrument-serif-italico.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* Paleta da marca (mazyos.com.br) */
+  --mz-carvao: #141413;
+  --mz-carvao-2: #1a1917;
+  --mz-carvao-3: #0d0d0c;
+  --mz-creme: #faf9f5;
+  --mz-creme-2: #f4efe6;
+  --mz-brasa: #d97757;
+  --mz-folha: #2e9b68;
+  --mz-ouro: #b8925a;
+  --mz-mare: #0e6b63;
+  --mz-mare-funda: #123430;
+  --mz-pedra: #6b665e;
+
+  /* Tipografia */
+  --mz-serifa: 'Instrument Serif', Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+  --mz-texto: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif);
+  --mz-mono: var(--vscode-editor-font-family, ui-monospace, 'SF Mono', Menlo, Consolas, monospace);
+  --mz-tam: var(--vscode-font-size, 13px);
+
+  /* Escala tipográfica (texto de interface) */
+  --mz-t-1: 11px;
+  --mz-t-2: 12px;
+  --mz-t-3: 13px;
+  --mz-t-4: 14px;
+  /* Escala da serifada (ela é estreita: pede tamanhos maiores) */
+  --mz-s-1: 17px;
+  --mz-s-2: 20px;
+  --mz-s-3: 26px;
+  --mz-s-4: 34px;
+  --mz-s-5: 44px;
+
+  /* Espaços, escala de 4 px */
+  --mz-1: 4px;
+  --mz-2: 8px;
+  --mz-3: 12px;
+  --mz-4: 16px;
+  --mz-5: 20px;
+  --mz-6: 24px;
+  --mz-8: 32px;
+  --mz-10: 40px;
+
+  /* Raios por hierarquia: peça pequena, linha, cartão, compositor, pílula */
+  --mz-r-1: 4px;
+  --mz-r-2: 6px;
+  --mz-r-3: 9px;
+  --mz-r-4: 13px;
+  --mz-r-pilula: 999px;
+
+  /* Movimento */
+  --mz-rapido: 120ms;
+  --mz-medio: 180ms;
+  --mz-lento: 420ms;
+  --mz-curva: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --mz-curva-saida: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Tema escuro (padrão). As cores do editor mandam; os fallbacks servem ao dev.html. */
+  --mz-fundo: var(--vscode-sideBar-background, #181817);
+  --mz-fundo-editor: var(--vscode-editor-background, #1c1b19);
+  --mz-fg: var(--vscode-foreground, #e6e1d8);
+  --mz-fg-calado: var(--vscode-descriptionForeground, #a19b91);
+  --mz-borda: var(--vscode-widget-border, color-mix(in srgb, var(--mz-fg) 13%, transparent));
+  --mz-foco: var(--vscode-focusBorder, #d97757);
+  --mz-erro: var(--vscode-errorForeground, #f48771);
+
+  /* Superfícies esquentadas: um pouco de brasa e carvão por cima do tema */
+  --mz-quente: #3b3027;
+  --mz-elevado: color-mix(in oklab, var(--mz-fundo) 88%, var(--mz-quente));
+  --mz-elevado-2: color-mix(in oklab, var(--mz-fundo) 78%, var(--mz-quente));
+  --mz-poco: color-mix(in oklab, var(--mz-fundo) 72%, var(--mz-carvao-3));
+  --mz-realce: color-mix(in srgb, var(--mz-fg) 6%, transparent);
+  --mz-realce-forte: color-mix(in srgb, var(--mz-fg) 10%, transparent);
+  --mz-linha-fina: color-mix(in srgb, var(--mz-fg) 9%, transparent);
+
+  /* Cores de estado */
+  --mz-ok: #4cb582;
+  --mz-atencao: #d4a865;
+  --mz-texto-brasa: #e48c6e;
+
+  /* Tinta dos agentes: preenchimento, texto em cima do preenchimento, texto sobre o fundo */
+  --mz-ag-claude: #d97757;
+  --mz-ag-codex: #4fb3a6;
+  --mz-ag-antigravity: #c9a46c;
+  --mz-ag-claude-texto: #e48c6e;
+  --mz-ag-codex-texto: #67c2b5;
+  --mz-ag-antigravity-texto: #d3b27f;
+  --mz-sobre-tinta: #141413;
+
+  /* Sombras discretas */
+  --mz-sombra-1: 0 1px 0 color-mix(in srgb, #fff 3%, transparent) inset, 0 1px 2px rgb(0 0 0 / 0.28);
+  --mz-sombra-2: 0 1px 0 color-mix(in srgb, #fff 4%, transparent) inset, 0 10px 24px -14px rgb(0 0 0 / 0.7);
+  --mz-sombra-3: 0 18px 40px -18px rgb(0 0 0 / 0.75), 0 2px 6px rgb(0 0 0 / 0.3);
+}
+
+/* Tema claro: o creme entra no lugar do carvão */
+body.vscode-light {
+  --mz-fundo: var(--vscode-sideBar-background, #f8f7f3);
+  --mz-fundo-editor: var(--vscode-editor-background, #fffefb);
+  --mz-fg: var(--vscode-foreground, #2b2925);
+  --mz-fg-calado: var(--vscode-descriptionForeground, #6b665e);
+  --mz-erro: var(--vscode-errorForeground, #b3261e);
+  --mz-foco: var(--vscode-focusBorder, #b4532f);
+
+  --mz-quente: #efe5d3;
+  --mz-elevado: color-mix(in oklab, var(--mz-fundo) 40%, var(--mz-creme));
+  --mz-elevado-2: color-mix(in oklab, var(--mz-fundo) 30%, #fff);
+  --mz-poco: color-mix(in oklab, var(--mz-fundo) 55%, var(--mz-creme-2));
+  --mz-realce: color-mix(in srgb, var(--mz-carvao) 5%, transparent);
+  --mz-realce-forte: color-mix(in srgb, var(--mz-carvao) 9%, transparent);
+  --mz-linha-fina: color-mix(in srgb, var(--mz-carvao) 9%, transparent);
+
+  --mz-ok: #1f7a50;
+  --mz-atencao: #8a6324;
+  --mz-texto-brasa: #b4532f;
+
+  --mz-ag-claude: #b9583a;
+  --mz-ag-codex: #0e6b63;
+  --mz-ag-antigravity: #87652f;
+  --mz-ag-claude-texto: #a84d30;
+  --mz-ag-codex-texto: #0c5f58;
+  --mz-ag-antigravity-texto: #76572a;
+  --mz-sobre-tinta: #ffffff;
+
+  --mz-sombra-1: 0 1px 2px rgb(20 20 19 / 0.07);
+  --mz-sombra-2: 0 1px 2px rgb(20 20 19 / 0.05), 0 10px 24px -14px rgb(20 20 19 / 0.22);
+  --mz-sombra-3: 0 18px 40px -18px rgb(20 20 19 / 0.3), 0 2px 6px rgb(20 20 19 / 0.08);
+}
+
+/* Alto contraste: bordas do tema, nada de sombra nem mistura */
+body.vscode-high-contrast,
+body.vscode-high-contrast-light {
+  --mz-borda: var(--vscode-contrastBorder, currentColor);
+  --mz-linha-fina: var(--vscode-contrastBorder, currentColor);
+  --mz-elevado: var(--mz-fundo);
+  --mz-elevado-2: var(--mz-fundo);
+  --mz-poco: var(--mz-fundo);
+  --mz-sombra-1: none;
+  --mz-sombra-2: none;
+  --mz-sombra-3: none;
+}
+
+/* A tinta do agente escolhido: pinta o envio, o foco do pedido, o fio da linha do tempo e o pulso */
+[data-agente='claude'] {
+  --mz-tinta: var(--mz-ag-claude);
+  --mz-tinta-texto: var(--mz-ag-claude-texto);
+}
+[data-agente='codex'] {
+  --mz-tinta: var(--mz-ag-codex);
+  --mz-tinta-texto: var(--mz-ag-codex-texto);
+}
+[data-agente='antigravity'] {
+  --mz-tinta: var(--mz-ag-antigravity);
+  --mz-tinta-texto: var(--mz-ag-antigravity-texto);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mz-rapido: 0ms;
+    --mz-medio: 0ms;
+    --mz-lento: 0ms;
+  }
+}
