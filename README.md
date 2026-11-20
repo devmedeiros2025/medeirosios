@@ -28,6 +28,33 @@ negócio. Nenhum conteúdo de cliente é distribuído neste repositório.
   originais; o Codex lê os adaptadores e a ponte de execução. Hooks, painel e
   mod TypeScript do plugin original são documentados como fonte, não executados.
 
+## Instalador Windows (um arquivo só)
+
+Para quem só quer usar, baixe `MEDEIROS-SYSTEM-Instalador.exe` e execute. Não é
+necessário Git, Node, npm nem conta do autor. O instalador:
+
+- extrai Node 24, o núcleo e o MausBot para `%LOCALAPPDATA%\MedeirosSystem`;
+- registra o MCP no Codex, OpenCode e Claude Code, com backup dos arquivos de
+  configuração antes de alterá-los;
+- cria o atalho **Abrir painel** no menu Iniciar;
+- abre o painel em `http://127.0.0.1:8765`.
+
+No painel, use a área **Suas credenciais** para informar a chave da sua própria
+conta. A chave fica em `~/.medeiros-system/keys/`, fora da pasta instalada e fora
+do repositório. Ela nunca aparece no painel, nunca volta em uma resposta e nunca
+é enviada a nós.
+
+Para gerar e conferir o instalador a partir do código:
+
+```bash
+node scripts/build-instalador.mjs
+node scripts/validar-instalador.mjs
+```
+
+O primeiro comando grava `dist/MEDEIROS-SYSTEM-Instalador.exe`; o segundo instala
+em uma pasta temporária e valida extração, registro MCP, `doctor`, CLI embutido,
+painel e fluxo de credenciais com chave fictícia. O `.exe` não é versionado.
+
 ## Instalação em qualquer computador (passo a passo)
 
 ### 1. Pré-requisitos
@@ -57,7 +84,7 @@ node --test tests/*.test.mjs
 ```
 
 O `doctor` deve responder `"ok": true`, com `upstreamRepositories: 11`,
-`specialties: 31`, `importedFiles: 1727` e `errors: []`. Os 15 testes devem
+`specialties: 31`, `importedFiles: 1727` e `errors: []`. Os 54 testes devem
 passar. Se algo falhar, não avance: algum arquivo de fonte ou adaptador está
 divergente do manifesto.
 
