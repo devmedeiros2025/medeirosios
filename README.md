@@ -4,6 +4,30 @@ Camada de integração própria para coordenação de agentes, fluxos de entrega
 ponte de runtime, com 31 especialidades preservadas de fontes de engenharia e
 negócio. Nenhum conteúdo de cliente é distribuído neste repositório.
 
+## O que este repositório faz
+
+- **Coordena equipes de agentes** com papéis explícitos (orquestrador, executor e
+  revisor), registra a equipe em `.mazyos/runs` e nunca inventa IDs de agentes
+  iniciados — nenhum é marcado como iniciado até a ferramenta real retornar o ID.
+- **Executa sete fluxos de entrega**: `sistema`, `lancamento`, `manutencao`,
+  `conteudo`, `comercial`, `analise` e `geral`. Cada etapa tem responsável,
+  dependências, especialidades, critério de aceite e evidências.
+- **Disponibiliza 31 especialidades**: 9 da suíte Expx (buildx, designx, legadox,
+  memox, mergex, prodx, runx, sprintx, stackx), 17 oficiais do MazyOS e 5
+  bibliotecas locais (marketing, revisão, vendas, conteúdo e engenharia reversa).
+  Cada uma tem um adaptador em `.agents/skills/` que aponta para a fonte real.
+- **Instala a ponte em projetos** com `attach`, `new` e `bootstrap`. O `attach`
+  preserva regras locais, cria backup e é idempotente; o `bootstrap` copia apenas
+  arquivos ausentes e nunca sobrescreve memória existente.
+- **Valida a própria integridade** com `doctor`: presença dos manifestos, hashes
+  SHA-256 de proveniência, links dos adaptadores, commits e licenças das fontes.
+- **Mantém limites explícitos**: com menos de três agentes, a revisão independente
+  é declarada como ausente. Publicações, envio de mensagens e mudanças externas
+  exigem autorização explícita — a existência de uma skill não autoriza seu uso.
+- **Funciona em múltiplos runtimes**: Claude Code e OpenCode usam as fontes
+  originais; Codex/Orca lê os adaptadores e a ponte de execução. Hooks, painel e
+  mod TypeScript do plugin original são documentados como fonte, não executados.
+
 ## Instalação em qualquer computador
 
 Requisito: Node.js 18 ou superior. Não é necessário instalar dependências do
