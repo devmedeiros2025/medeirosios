@@ -1,7 +1,10 @@
 import {makeWorkflow} from './workflows.mjs';
+import {executar} from './orchestrator.mjs';
+import {criarDelegadorCodex} from './codex-delegado.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 export const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const BEGIN='<!-- MAZYOS-EXPX:BEGIN -->',END='<!-- MAZYOS-EXPX:END -->';
@@ -17,9 +20,9 @@ function safe(root,relative){
 function projectDir(p){const dir=fs.realpathSync(p);if(!fs.statSync(dir).isDirectory())throw Error('Projeto deve ser pasta');return dir;}
 function merge(old,block){
  const starts=old.split(BEGIN).length-1,ends=old.split(END).length-1;
- if(starts!==ends||starts>1)throw Error('Bloco MazYos inválido');
+ if(starts!==ends||starts>1)throw Error('Bloco de instruções gerenciadas inválido');
  if(!starts)return old+(old&&!old.endsWith('\n')?'\n':'')+(old?'\n':'')+block+'\n';
- const a=old.indexOf(BEGIN),b=old.indexOf(END);if(b<a)throw Error('Bloco MazYos invertido');
+ const a=old.indexOf(BEGIN),b=old.indexOf(END);if(b<a)throw Error('Bloco de instruções gerenciadas invertido');
  return old.slice(0,a)+block+old.slice(b+END.length);
 }
 export function attach(project,root=ROOT){
@@ -78,11 +81,23 @@ export function bootstrap(project,root=ROOT){
  return {project,created:pending.map(f=>f.rel),preserved};
 }
 
+// O manifesto foi gerado no Windows (CRLF); o checkout do git pode gravar LF.
+// Comparamos as formas canônicas para não confundir line endings com alteração de conteúdo.
+function hashesIntegridade(buffer){
+ const texto=buffer.toString('utf8');
+ const variants=[buffer,Buffer.from(texto.replaceAll('\r\n','\n'),'utf8'),Buffer.from(texto.replace(/\r?\n/g,'\r\n'),'utf8')];
+ return variants.map(b=>crypto.createHash('sha256').update(b).digest('hex'));
+}
+// Backups temporários listados no manifesto podem estar fora do controle de versão.
+function ignoradoPeloGit(root,relative){
+ try{return spawnSync('git',['-C',root,'check-ignore','-q','--',relative],{stdio:'ignore'}).status===0;}
+ catch{return false;}
+}
 export function doctor(root=ROOT){
  const errors=[];
  for(const f of ['AGENTS.md','CLAUDE.md','README.md','docs/COMPATIBILIDADE.md','docs/ROTEAMENTO.md'])if(!fs.existsSync(path.join(root,f)))errors.push('Ausente: '+f);
  const provenance=json(path.join(root,'provenance.json'));
- for(const item of provenance.files){const target=safe(root,item.path);if(!fs.existsSync(target)){errors.push('Ausente: '+item.path);continue;}const hash=crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex');if(hash!==item.sha256)errors.push('Hash divergente: '+item.path);}
+ for(const item of provenance.files){const target=safe(root,item.path);if(!fs.existsSync(target)){if(ignoradoPeloGit(root,item.path))continue;errors.push('Ausente: '+item.path);continue;}if(!hashesIntegridade(fs.readFileSync(target)).includes(item.sha256))errors.push('Hash divergente: '+item.path);}
  const catalog=json(path.join(root,'catalog.json'));
  for(const skill of catalog.skills){if(!fs.existsSync(safe(root,skill.source)))errors.push('Fonte ausente: '+skill.id);const file=path.join(root,'.agents/skills',skill.id,'SKILL.md');if(!fs.existsSync(file)||!read(file).startsWith('---\nname:'))errors.push('Adaptador inválido: '+skill.id);}
  const lock=json(path.join(root,'sources.lock.json'));for(const source of lock.sources)if(!/^[a-f0-9]{40}$/.test(source.commit)||(source.licenseStatus!=='not-declared-at-root'&&!fs.existsSync(path.join(root,source.path,source.licensePath??'LICENSE'))))errors.push('Revisão/licença inválida: '+source.id);
@@ -90,7 +105,7 @@ export function doctor(root=ROOT){
 }
 function main(){
  const [command,...args]=process.argv.slice(2),options={};for(let i=0;i<args.length;i+=2){if(!args[i].startsWith('--')||args[i+1]===undefined)throw Error('Argumentos inválidos');options[args[i].slice(2)]=args[i+1];}
- let result;if(command==='attach')result=attach(options.project);else if(command==='bootstrap')result=bootstrap(options.project);else if(command==='new')result=createProject(options.name);else if(command==='plan')result=plan(options.project,options.agents,options.task,options.workflow);else if(command==='doctor'){result=doctor();if(!result.ok)process.exitCode=1;}else throw Error('Use attach --project PASTA | new --name NOME | plan --project PASTA --agents N --task PEDIDO | doctor');
+ let result;if(command==='attach')result=attach(options.project);else if(command==='bootstrap')result=bootstrap(options.project);else if(command==='new')result=createProject(options.name);else if(command==='plan')result=plan(options.project,options.agents,options.task,options.workflow);else if(command==='run')result=executar(options.project,options.task,{workflow:options.workflow,delegador:criarDelegadorCodex({root:ROOT})});else if(command==='doctor'){result=doctor();if(!result.ok)process.exitCode=1;}else throw Error('Use attach --project PASTA | new --name NOME | plan --project PASTA --agents N --task PEDIDO | run --project PASTA --task PEDIDO | doctor');
  console.log(JSON.stringify(result,null,2));
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){try{main();}catch(e){console.error(e.message);process.exitCode=1;}}
