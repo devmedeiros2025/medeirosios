@@ -46,4 +46,13 @@ Base remota: `https://github.com/devmedeiros2025/medeirosios.git` (branch `main`
 
 ## Estado de publicação
 
-Nenhum `git push` foi executado. Publicação depende de autorização explícita.
+Push autorizado pelo usuário e executado em 2026-11-20: `a033060..720f14e main -> main`.
+HEAD local e remoto conferidos: `720f14e6be86c68f2444147e1416066e19db370f`; `git status -sb` sem divergência.
+
+O push exigiu contornar uma configuração global que força o helper `gh` para `github.com` (tokens inválidos no keyring). Foi usado apenas no comando, sem alterar configurações permanentes:
+
+```sh
+git -c credential.https://github.com.helper= -c credential.https://github.com.helper=manager push origin main
+```
+
+Isso selecionou a credencial válida do Gerenciador de Credenciais do Windows para `devmedeiros2025`.
