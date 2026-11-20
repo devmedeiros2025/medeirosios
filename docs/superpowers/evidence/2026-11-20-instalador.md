@@ -91,5 +91,6 @@ A validação confirmou também que:
 - Nenhum `runtimeId` foi inventado e nenhuma delegação real via `codex exec` foi
   concluída nesta rodada: o limite externo do provedor bloqueou o smoke test.
 - O `.exe` fica em `dist/` e não é versionado.
-- Publicação depende de autorização explícita; os commits locais estão na branch
-  `main`, à frente do remoto.
+- Os commits estão publicados em `main` (`0738493`), com local e remoto iguais.
+- Publicar o `.exe` como release baixável depende de autorização explícita; o
+  arquivo está gerado e validado em `dist/`, mas ainda não foi anexado a uma release.
