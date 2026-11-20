@@ -14,7 +14,7 @@ Comece por docs/FLUXOS.md. O orquestrador escolhe somente as especialidades rele
 | Entrega de software | [Abrir](../.agents/skills/expx-mergex/SKILL.md) |
 | Memória técnica | [Abrir](../.agents/skills/expx-memox/SKILL.md) |
 | Marketing e Google Ads | [Abrir](../.agents/skills/mazyos-marketing/SKILL.md) |
-| Revisão Alfândega | [Abrir](../.agents/skills/mazyos-revisao/SKILL.md) |
+| Revisão de entrega | [Abrir](../.agents/skills/mazyos-revisao/SKILL.md) |
 | Estratégia comercial | [Abrir](../.agents/skills/mazyos-vendas/SKILL.md) |
 | Carrosséis e conteúdo | [Abrir](../.agents/skills/mazyos-conteudo/SKILL.md) |
 | Engenharia reversa | [Abrir](../.agents/skills/mazyos-engenharia-reversa/SKILL.md) |

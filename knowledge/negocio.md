@@ -1,4 +1,4 @@
-# Contexto MazYos
+# Contexto de negócio
 
 Núcleo de operação para tecnologia, gestão, segurança, agentes de IA, automação, sites, landing pages e marketing digital. Atuação no Brasil e em Angola.
 

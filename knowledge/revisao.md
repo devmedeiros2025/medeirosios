@@ -1,6 +1,6 @@
 # Práticas reutilizáveis de revisão
 
-Derivadas da squad Alfândega, sem histórico de clientes ou composição de equipe.
+Derivadas da revisão de entrega, sem histórico de clientes ou composição de equipe.
 
 - Conferir o pedido e a entrega com evidência independente.
 - Aprovar copy antes de montar a landing page; conferir a fidelidade da implementação.

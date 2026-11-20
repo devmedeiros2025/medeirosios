@@ -12,7 +12,7 @@ negócio. Nenhum conteúdo de cliente é distribuído neste repositório.
 - **Executa sete fluxos de entrega**: `sistema`, `lancamento`, `manutencao`,
   `conteudo`, `comercial`, `analise` e `geral`. Cada etapa tem responsável,
   dependências, especialidades, critério de aceite e evidências.
-- **Disponibiliza 31 especialidades**: 9 da suíte Expx (buildx, designx, legadox,
+- **Disponibiliza 31 especialidades**: 9 da suíte de engenharia (buildx, designx, legadox,
   memox, mergex, prodx, runx, sprintx, stackx), 17 especialidades de negócio e 5
   bibliotecas locais (marketing, revisão, vendas, conteúdo e engenharia reversa).
   Cada uma tem um adaptador em `.agents/skills/` que aponta para a fonte real.
@@ -25,7 +25,7 @@ negócio. Nenhum conteúdo de cliente é distribuído neste repositório.
   é declarada como ausente. Publicações, envio de mensagens e mudanças externas
   exigem autorização explícita — a existência de uma skill não autoriza seu uso.
 - **Funciona em múltiplos runtimes**: Claude Code e OpenCode usam as fontes
-  originais; Codex/Orca lê os adaptadores e a ponte de execução. Hooks, painel e
+  originais; o Codex lê os adaptadores e a ponte de execução. Hooks, painel e
   mod TypeScript do plugin original são documentados como fonte, não executados.
 
 ## Instalação em qualquer computador (passo a passo)
@@ -34,11 +34,11 @@ negócio. Nenhum conteúdo de cliente é distribuído neste repositório.
 
 - Git e Node.js 18 ou superior (`node --version`).
 - Uma ferramenta de IA que leia arquivos do projeto. O núcleo foi pensado para
-  Claude Code, OpenCode e Codex/Orca, mas funciona como contrato em texto:
+  Claude Code, OpenCode e Codex, mas funciona como contrato em texto:
   qualquer agente que leia `AGENTS.md` pode seguir o método.
 - Não é preciso `npm install`: `vendor/` é fonte preservada, não dependência
-  instalável. O módulo `modulex`, citado por `buildx`, é opcional e não foi
-  instalado — use o fallback documentado na própria skill.
+  instalável. Um módulo opcional citado por `buildx` não foi instalado —
+  use o fallback documentado na própria skill.
 
 ### 2. Baixar o núcleo
 
@@ -92,9 +92,9 @@ a fonte preservada em `vendor/`.
 
 - **Claude Code / OpenCode**: as skills originais estão em `vendor/` no formato
   `.claude/skills/` e `.opencode/skills/`. Use o runtime original para os
-  comandos `/expx` e slash commands; os adaptadores em `.agents/skills/` são a
+  comandos de barra e slash commands; os adaptadores em `.agents/skills/` são a
   ponte de leitura para outros runtimes.
-- **Codex/Orca e outras IAs**: abra uma **nova sessão** dentro do projeto e peça
+- **Codex e outras IAs**: abra uma **nova sessão** dentro do projeto e peça
   explicitamente: `Leia AGENTS.md e docs/ROTEAMENTO.md antes de começar`. Depois
   solicite a leitura do adaptador da especialidade desejada. Não há carregamento
   automático nem permissões globais alteradas.

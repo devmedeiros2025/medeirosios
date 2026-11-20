@@ -6,9 +6,9 @@ O núcleo guarda métodos e templates. Cada projeto guarda seu briefing, memóri
 
 ## Fontes e ferramentas
 
-A variável CLAUDE_PLUGIN_ROOT nas especialidades de negócio deve ser resolvida como vendor/mazyos-official no núcleo. Não é preciso alterar variável global. Os comandos /mazyos:nome são aliases de mazyos-nome em catalog.json; chamadas Expx resolvem para os adaptadores expx-nome. Leia as fontes e use ferramentas equivalentes disponíveis.
+A variável CLAUDE_PLUGIN_ROOT nas especialidades de negócio deve ser resolvida como a pasta preservada das fontes no núcleo. Não é preciso alterar variável global. Os comandos de barra são aliases dos identificadores em catalog.json; as chamadas da suíte de engenharia resolvem para os adaptadores correspondentes. Leia as fontes e use ferramentas equivalentes disponíveis.
 
-O mod TypeScript, painel, status e hooks do plugin original não são executados no Codex/Orca. A leitura de memória é responsabilidade explícita do orquestrador. Não alegar carregamento automático ou bloqueios técnicos inexistentes. A extensão VS Code é preservada como fonte e não foi instalada.
+O mod TypeScript, painel, status e hooks do plugin original não são executados no Codex. A leitura de memória é responsabilidade explícita do orquestrador. Não alegar carregamento automático ou bloqueios técnicos inexistentes. A extensão VS Code é preservada como fonte e não foi instalada.
 
 ## Combinação dos métodos
 
