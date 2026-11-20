@@ -13,7 +13,7 @@ negócio. Nenhum conteúdo de cliente é distribuído neste repositório.
   `conteudo`, `comercial`, `analise` e `geral`. Cada etapa tem responsável,
   dependências, especialidades, critério de aceite e evidências.
 - **Disponibiliza 31 especialidades**: 9 da suíte Expx (buildx, designx, legadox,
-  memox, mergex, prodx, runx, sprintx, stackx), 17 oficiais do MazyOS e 5
+  memox, mergex, prodx, runx, sprintx, stackx), 17 especialidades de negócio e 5
   bibliotecas locais (marketing, revisão, vendas, conteúdo e engenharia reversa).
   Cada uma tem um adaptador em `.agents/skills/` que aponta para a fonte real.
 - **Instala a ponte em projetos** com `attach`, `new` e `bootstrap`. O `attach`
@@ -66,11 +66,3 @@ Aponte o núcleo para um projeto com `attach` ou crie um projeto isolado com
 `new`. `bootstrap` copia somente arquivos ausentes do esqueleto de workspace e
 nunca sobrescreve memória existente. `plan` registra a equipe e o fluxo sem
 iniciar agentes. A delegação real depende da ferramenta disponível no runtime.
-
-## Fontes
-
-As fontes de engenharia são expxdev e nove repositórios oficiais de
-bittencourtthulio. A fonte de negócio é mazzeoia/MazyOS, revisão
-`d2b65b392f1ee230afb088d155fc734def5f105d`. Bibliotecas locais de marketing,
-revisão, vendas, conteúdo, identidade e engenharia reversa complementam as
-especialidades. O nome do produto não altera autoria nem direitos das fontes.
