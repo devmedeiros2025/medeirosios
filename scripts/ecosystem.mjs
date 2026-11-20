@@ -89,9 +89,44 @@ function hashesIntegridade(buffer){
  return variants.map(b=>crypto.createHash('sha256').update(b).digest('hex'));
 }
 // Backups temporários listados no manifesto podem estar fora do controle de versão.
+// A instalação portátil não exige git: nesse caso usamos os .gitignore do próprio pacote.
+function regexPadrao(linha){
+ let s=linha.trim();
+ if(!s||s.startsWith('#'))return null;
+ const negar=s.startsWith('!');if(negar)s=s.slice(1);
+ const somenteDiretorio=s.endsWith('/');if(somenteDiretorio)s=s.slice(0,-1);
+ s=s.replace(/^\//,'');
+ const partes=s.split('/');
+ let origem='^';
+ for(let i=0;i<partes.length;i++){
+  if(i)origem+='/';
+  const parte=partes[i];
+  if(parte==='**'){origem+='(?:.*/)?';continue;}
+  origem+=parte.replace(/[.+^${}()|[\]\\]/g,'\\$&').replace(/\*/g,'[^/]*').replace(/\?/g,'[^/]');
+ }
+ origem+=somenteDiretorio?'(?:/|$)':'$';
+ return {regex:new RegExp(origem),negar,comBarra:s.includes('/')};
+}
+export function ignoradoSemGit(root,relative){
+ const partes=relative.replaceAll('\\','/').split('/');
+ let ignorado=false;
+ for(let i=0;i<partes.length;i++){
+  const arquivo=path.join(root,partes.slice(0,i).join('/'),'.gitignore');
+  if(!fs.existsSync(arquivo))continue;
+  const relativo=partes.slice(i).join('/');
+  for(const linha of read(arquivo).split(/\r?\n/)){
+   const padrao=regexPadrao(linha);
+   if(!padrao)continue;
+   const alvo=padrao.comBarra?relativo:partes[partes.length-1];
+   if(padrao.regex.test(alvo))ignorado=!padrao.negar;
+  }
+ }
+ return ignorado;
+}
 function ignoradoPeloGit(root,relative){
- try{return spawnSync('git',['-C',root,'check-ignore','-q','--',relative],{stdio:'ignore'}).status===0;}
- catch{return false;}
+ const r=spawnSync('git',['-C',root,'check-ignore','-q','--',relative],{stdio:'ignore'});
+ if(r.error||(r.status!==0&&r.status!==1))return ignoradoSemGit(root,relative);
+ return r.status===0;
 }
 export function doctor(root=ROOT){
  const errors=[];
@@ -99,7 +134,7 @@ export function doctor(root=ROOT){
  const provenance=json(path.join(root,'provenance.json'));
  for(const item of provenance.files){const target=safe(root,item.path);if(!fs.existsSync(target)){if(ignoradoPeloGit(root,item.path))continue;errors.push('Ausente: '+item.path);continue;}if(!hashesIntegridade(fs.readFileSync(target)).includes(item.sha256))errors.push('Hash divergente: '+item.path);}
  const catalog=json(path.join(root,'catalog.json'));
- for(const skill of catalog.skills){if(!fs.existsSync(safe(root,skill.source)))errors.push('Fonte ausente: '+skill.id);const file=path.join(root,'.agents/skills',skill.id,'SKILL.md');if(!fs.existsSync(file)||!read(file).startsWith('---\nname:'))errors.push('Adaptador inválido: '+skill.id);}
+ for(const skill of catalog.skills){if(!fs.existsSync(safe(root,skill.source)))errors.push('Fonte ausente: '+skill.id);const file=path.join(root,'.agents/skills',skill.id,'SKILL.md');if(!fs.existsSync(file)||!read(file).replace(/^\uFEFF/,'').replace(/\r\n/g,'\n').startsWith('---\nname:'))errors.push('Adaptador inválido: '+skill.id);}
  const lock=json(path.join(root,'sources.lock.json'));for(const source of lock.sources)if(!/^[a-f0-9]{40}$/.test(source.commit)||(source.licenseStatus!=='not-declared-at-root'&&!fs.existsSync(path.join(root,source.path,source.licensePath??'LICENSE'))))errors.push('Revisão/licença inválida: '+source.id);
  return {ok:errors.length===0,importedFiles:provenance.files.length,upstreamRepositories:lock.sources.length,specialties:catalog.skills.length,errors};
 }

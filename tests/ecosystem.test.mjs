@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';
-import {attach,plan,createProject,doctor,ROOT} from '../scripts/ecosystem.mjs';
+import {attach,plan,createProject,doctor,ROOT,ignoradoSemGit} from '../scripts/ecosystem.mjs';
 function project(){return fs.mkdtempSync(path.join(os.tmpdir(),'mazyos-test-'));}
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 function baseDoctor(root){
@@ -42,4 +42,21 @@ test('doctor nao erra arquivo ausente ignorado pelo git',()=>{
  fs.writeFileSync(path.join(p,'.gitignore'),'*.bak\n');
  fs.writeFileSync(path.join(p,'provenance.json'),JSON.stringify({files:[{path:'ausente.bak',sha256:sha('x')}]}));
  assert.deepEqual(doctor(p).errors,[]);
+});
+test('doctor aceita adaptador gravado com CRLF',()=>{
+ const p=project();baseDoctor(p);
+ fs.mkdirSync(path.join(p,'vendor/exemplo'),{recursive:true});
+ const arquivo=path.join(p,'.agents/skills/expx-buildx/SKILL.md');
+ fs.mkdirSync(path.dirname(arquivo),{recursive:true});
+ fs.writeFileSync(arquivo,'---\r\nname: expx-buildx\r\n---\r\nconteudo\r\n');
+ fs.writeFileSync(path.join(p,'catalog.json'),JSON.stringify({schema:1,skills:[{id:'expx-buildx',source:'vendor/exemplo'}]}));
+ fs.writeFileSync(path.join(p,'provenance.json'),JSON.stringify({files:[]}));
+ assert.deepEqual(doctor(p).errors,[]);
+});
+test('fallback sem git reconhece padrao de .gitignore aninhado',()=>{
+ const p=project();
+ fs.mkdirSync(path.join(p,'vendor/exemplo/.claude'),{recursive:true});
+ fs.writeFileSync(path.join(p,'vendor/exemplo/.gitignore'),'node_modules/\n.claude/settings.json.backup-*\n');
+ assert.equal(ignoradoSemGit(p,'vendor/exemplo/.claude/settings.json.backup-2026-08-30'),true);
+ assert.equal(ignoradoSemGit(p,'vendor/exemplo/.claude/settings.json'),false);
 });
