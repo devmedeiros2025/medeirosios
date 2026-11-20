@@ -14,6 +14,14 @@ Base remota: `https://github.com/devmedeiros2025/medeirosios.git` (branch `main`
 | Team file | `openmausbot team apply config/mausbot-team.json --dry-run --json` | `ok:true`, `created:11`, `changed:0`, `applied:false`, `warnings:[]`, modelo `claude/claude-sonnet-5-5` aceito |
 | Painel local | `node scripts/ui/server.mjs` + requests em `127.0.0.1:8765` | `/`, `/api/inventario`, `/api/integridade`, `/api/ferramentas`, `/api/inteligencias` → HTTP 200 |
 
+## Aplicação real do team file no MausBot
+
+- `openmausbot team apply config/mausbot-team.json --json` → `ok:true`, `created:11`, `applied:true`, `writes:22`, `warnings:[]`.
+- `openmausbot team apply config/mausbot-team.json --check --json` → `ok:true`, `plan:[]`, `unchanged:35`, `EXIT=0` (idempotente).
+- `list_bots` via MCP → 10 bots: os 9 do time `MEDEIROS SYSTEM` e o bot padrão preservado; modelo `claude/claude-sonnet-5-5`.
+- `openmausbot team export --team "MEDEIROS SYSTEM" --out ...` → `1 teams, 9 bots, 1 rooms, 351 skills`; as 8 inteligências `intel-*` aparecem acopladas a cada bot.
+- Nenhum `--prune` foi usado: nada foi deletado do workspace.
+
 ## Registro MCP nos clientes
 
 `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\install-mcp.ps1`
