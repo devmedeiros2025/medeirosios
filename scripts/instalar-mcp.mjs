@@ -9,7 +9,11 @@ const arquivos={
  opencode:path.join(home,'.config','opencode','opencode.json'),
  claude:path.join(home,'.claude.json')
 };
-const comando=process.platform==='win32'?'openmausbot.cmd':'openmausbot';
+// Instalador portátil: registra o node e o CLI embutidos, com caminho absoluto.
+// Sem essa variável, mantém o comportamento anterior de usar o CLI global.
+const cliBundlado=process.env.OPENMAUSBOT_CLI;
+const comando=cliBundlado?process.execPath:(process.platform==='win32'?'openmausbot.cmd':'openmausbot');
+const argumentos=cliBundlado?[cliBundlado,'mcp']:['mcp'];
 const resultados=[];
 
 function salvar(chave,texto,transformar){
@@ -51,13 +55,13 @@ function adicionarJson(chave,nome,entrada){
 }
 
 salvar('codex',null,adicionarToml('[mcp_servers.openmausbot]',[
- `command = "${comando}"`,
- 'args = ["mcp"]',
+ 'command = '+JSON.stringify(comando),
+ 'args = ['+argumentos.map(a=>JSON.stringify(a)).join(', ')+']',
  'startup_timeout_sec = 30',
  'tool_timeout_sec = 600'
 ].join('\n')));
-salvar('opencode',null,adicionarJson('mcp','openmausbot',{type:'local',command:[comando,'mcp'],enabled:true}));
-salvar('claude',null,adicionarJson('mcpServers','openmausbot',{command:comando,args:['mcp']}));
+salvar('opencode',null,adicionarJson('mcp','openmausbot',{type:'local',command:[comando,...argumentos],enabled:true}));
+salvar('claude',null,adicionarJson('mcpServers','openmausbot',{command:comando,args:argumentos}));
 
 const ok=resultados.every(r=>r.ok);
 console.log(JSON.stringify({ok,resultados},null,2));
